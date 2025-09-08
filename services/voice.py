@@ -1,4 +1,4 @@
-from africastalking.AfricasTalkingGateway import AfricasTalkingGateway, AfricasTalkingGatewayException
+import africastalking
 import random
 
 # Africa's Talking credentials (in production, use environment variables)
@@ -8,9 +8,11 @@ API_KEY = 'your_api_key_here'  # Replace with your Africa's Talking API key
 def initialize_voice_gateway():
     """Initialize Africa's Talking voice gateway"""
     try:
-        gateway = AfricasTalkingGateway(USERNAME, API_KEY)
-        return gateway
-    except AfricasTalkingGatewayException as e:
+        # Initialize Africa's Talking
+        africastalking.initialize(USERNAME, API_KEY)
+        voice = africastalking.Voice
+        return voice
+    except Exception as e:
         print(f"Error initializing Africa's Talking voice gateway: {e}")
         return None
 
@@ -219,7 +221,7 @@ def make_voice_call(phone_number, lesson_type='general'):
             elif phone_number.startswith('255'):
                 phone_number = '+' + phone_number
         
-        # Make voice call
+        # Make voice call using new API syntax
         call = gateway.call(phone_number, '+255714123456')  # Your Africa's Talking voice number
         
         if call:
@@ -229,11 +231,8 @@ def make_voice_call(phone_number, lesson_type='general'):
             print(f"Failed to initiate voice call to {phone_number}")
             return False
             
-    except AfricasTalkingGatewayException as e:
-        print(f"Error making voice call to {phone_number}: {e}")
-        return False
     except Exception as e:
-        print(f"Unexpected error making voice call: {e}")
+        print(f"Error making voice call to {phone_number}: {e}")
         return False
 
 def schedule_voice_lesson(phone_number, scheduled_time):

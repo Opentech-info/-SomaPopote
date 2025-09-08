@@ -1,4 +1,4 @@
-from africastalking.AfricasTalkingGateway import AfricasTalkingGateway, AfricasTalkingGatewayException
+import africastalking
 from database import get_user_points, update_user_points, log_reward
 import datetime
 
@@ -33,9 +33,11 @@ REWARD_CONFIG = {
 def initialize_airtime_gateway():
     """Initialize Africa's Talking gateway for airtime"""
     try:
-        gateway = AfricasTalkingGateway(USERNAME, API_KEY)
-        return gateway
-    except AfricasTalkingGatewayException as e:
+        # Initialize Africa's Talking
+        africastalking.initialize(USERNAME, API_KEY)
+        airtime = africastalking.Airtime
+        return airtime
+    except Exception as e:
         print(f"Error initializing airtime gateway: {e}")
         return None
 
@@ -62,11 +64,17 @@ def award_airtime(phone_number, amount):
             elif phone_number.startswith('255'):
                 phone_number = '+' + phone_number
         
-        # Send airtime
-        result = gateway.sendAirtime(phone_number, str(amount))
+        # Send airtime using new API syntax
+        recipients = [{
+            'phoneNumber': phone_number,
+            'amount': str(amount),
+            'currencyCode': 'TZS'
+        }]
         
-        if result and len(result) > 0:
-            status = result[0]['status']
+        result = gateway.send(recipients)
+        
+        if result and 'responses' in result and len(result['responses']) > 0:
+            status = result['responses'][0]['status']
             if status == 'Sent':
                 print(f"Airtime sent successfully to {phone_number}: Tsh {amount}")
                 return True
@@ -77,11 +85,8 @@ def award_airtime(phone_number, amount):
             print(f"No response from Africa's Talking for airtime to {phone_number}")
             return False
             
-    except AfricasTalkingGatewayException as e:
-        print(f"Error sending airtime to {phone_number}: {e}")
-        return False
     except Exception as e:
-        print(f"Unexpected error sending airtime: {e}")
+        print(f"Error sending airtime to {phone_number}: {e}")
         return False
 
 def award_points(phone_number, points, reason):

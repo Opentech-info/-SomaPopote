@@ -1,4 +1,4 @@
-from africastalking.AfricasTalkingGateway import AfricasTalkingGateway, AfricasTalkingGatewayException
+import africastalking
 import os
 
 # Africa's Talking credentials (in production, use environment variables)
@@ -8,9 +8,11 @@ API_KEY = 'your_api_key_here'  # Replace with your Africa's Talking API key
 def initialize_gateway():
     """Initialize Africa's Talking gateway"""
     try:
-        gateway = AfricasTalkingGateway(USERNAME, API_KEY)
-        return gateway
-    except AfricasTalkingGatewayException as e:
+        # Initialize Africa's Talking
+        africastalking.initialize(USERNAME, API_KEY)
+        sms = africastalking.SMS
+        return sms
+    except Exception as e:
         print(f"Error initializing Africa's Talking gateway: {e}")
         return None
 
@@ -37,27 +39,27 @@ def send_sms(phone_number, message):
             elif phone_number.startswith('255'):
                 phone_number = '+' + phone_number
         
-        # Send SMS
-        recipients = gateway.sendMessage(phone_number, message)
+        # Send SMS using new API syntax
+        recipients = [{'number': phone_number}]
+        result = gateway.send(message, recipients)
         
         # Check if message was sent successfully
-        if recipients and len(recipients) > 0:
-            status = recipients[0]['status']
-            if status == 'Success':
-                print(f"SMS sent successfully to {phone_number}")
-                return True
-            else:
-                print(f"SMS failed to {phone_number}: {status}")
-                return False
-        else:
-            print(f"No response from Africa's Talking for {phone_number}")
-            return False
-            
-    except AfricasTalkingGatewayException as e:
-        print(f"Error sending SMS to {phone_number}: {e}")
+        if result and 'SMSMessageData' in result and 'Recipients' in result['SMSMessageData']:
+            recipients_data = result['SMSMessageData']['Recipients']
+            if recipients_data and len(recipients_data) > 0:
+                status = recipients_data[0]['status']
+                if status == 'Success':
+                    print(f"SMS sent successfully to {phone_number}")
+                    return True
+                else:
+                    print(f"SMS failed to {phone_number}: {status}")
+                    return False
+        
+        print(f"No response from Africa's Talking for {phone_number}")
         return False
+            
     except Exception as e:
-        print(f"Unexpected error sending SMS: {e}")
+        print(f"Error sending SMS to {phone_number}: {e}")
         return False
 
 def send_quiz_sms(phone_number, subject, question, options):

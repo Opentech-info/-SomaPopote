@@ -17,7 +17,7 @@ def init_db():
     cursor = conn.cursor()
     
     # Create users table
-    cursor.execute('''
+    cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             phone_number TEXT UNIQUE NOT NULL,
@@ -28,10 +28,10 @@ def init_db():
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             last_active TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
-    ''')
+    """)
     
     # Create user_progress table
-    cursor.execute('''
+    cursor.execute("""
         CREATE TABLE IF NOT EXISTS user_progress (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER,
@@ -43,10 +43,10 @@ def init_db():
             last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (user_id) REFERENCES users (id)
         )
-    ''')
+    """)
     
     # Create quiz_results table
-    cursor.execute('''
+    cursor.execute("""
         CREATE TABLE IF NOT EXISTS quiz_results (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER,
@@ -59,10 +59,10 @@ def init_db():
             timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (user_id) REFERENCES users (id)
         )
-    ''')
+    """)
     
     # Create lessons table
-    cursor.execute('''
+    cursor.execute("""
         CREATE TABLE IF NOT EXISTS lessons (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             subject TEXT NOT NULL,
@@ -73,10 +73,10 @@ def init_db():
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             is_active BOOLEAN DEFAULT TRUE
         )
-    ''')
+    """)
     
     # Create lesson_completions table
-    cursor.execute('''
+    cursor.execute("""
         CREATE TABLE IF NOT EXISTS lesson_completions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER,
@@ -85,10 +85,10 @@ def init_db():
             FOREIGN KEY (user_id) REFERENCES users (id),
             FOREIGN KEY (lesson_id) REFERENCES lessons (id)
         )
-    ''')
+    """)
     
     # Create rewards table
-    cursor.execute('''
+    cursor.execute("""
         CREATE TABLE IF NOT EXISTS rewards (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER,
@@ -98,10 +98,10 @@ def init_db():
             timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (user_id) REFERENCES users (id)
         )
-    ''')
+    """)
     
     # Create attendance table
-    cursor.execute('''
+    cursor.execute("""
         CREATE TABLE IF NOT EXISTS attendance (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER,
@@ -111,10 +111,10 @@ def init_db():
             FOREIGN KEY (user_id) REFERENCES users (id),
             UNIQUE(user_id, date)
         )
-    ''')
+    """)
     
     # Create teachers table
-    cursor.execute('''
+    cursor.execute("""
         CREATE TABLE IF NOT EXISTS teachers (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             phone_number TEXT UNIQUE NOT NULL,
@@ -124,35 +124,35 @@ def init_db():
             is_active BOOLEAN DEFAULT TRUE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
-    ''')
+    """)
     
     # Create bulk_messages table
-    cursor.execute('''
+    cursor.execute("""
         CREATE TABLE IF NOT EXISTS bulk_messages (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             teacher_id INTEGER,
             message TEXT NOT NULL,
-            recipient_type TEXT CHECK(recipient_type IN ('all', 'grade', 'specific')),
-            recipients TEXT,  # JSON array of phone numbers
+            recipient_type TEXT CHECK(recipient_type IN ('all', 'grade', 'specific')) DEFAULT 'all',
+            recipients TEXT,
             status TEXT DEFAULT 'pending',
             sent_at TIMESTAMP,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (teacher_id) REFERENCES teachers (id)
         )
-    ''')
+    """)
     
     # Create voice_sessions table
-    cursor.execute('''
+    cursor.execute("""
         CREATE TABLE IF NOT EXISTS voice_sessions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             user_id INTEGER,
-            session_type TEXT CHECK(session_type IN ('lesson', 'quiz', 'menu')),
+            session_type TEXT CHECK(session_type IN ('lesson', 'quiz', 'menu')) DEFAULT 'menu',
             duration INTEGER DEFAULT 0,
             completed BOOLEAN DEFAULT FALSE,
             timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (user_id) REFERENCES users (id)
         )
-    ''')
+    """)
     
     # Insert sample data if tables are empty
     insert_sample_data(cursor)

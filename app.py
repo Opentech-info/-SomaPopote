@@ -3,7 +3,7 @@ from services.ussd import ussd_menu
 from services.sms import send_sms
 from services.voice import voice_lesson
 from services.gamification import award_airtime
-from database import init_db, get_user_progress, update_user_progress, get_all_students, get_leaderboard_data, create_lesson as db_create_lesson, get_or_create_user, get_user_points, get_recent_quiz_results, get_attendance_records
+from database import init_db, get_user_progress, update_user_progress, get_all_students, get_leaderboard_data, create_lesson as db_create_lesson, get_or_create_user, get_user_points, get_recent_quiz_results, get_attendance_records, get_db_connection
 import os
 from datetime import datetime
 
@@ -238,9 +238,17 @@ def logout():
     session.clear()
     return redirect(url_for('index'))
 
-@app.route('/forgot_password')
+@app.route('/forgot_password', methods=['GET', 'POST'])
 def forgot_password():
     """Forgot password page"""
+    if request.method == 'POST':
+        phone_number = request.form.get('phone_number')
+        
+        # Here you would implement the password reset logic
+        # For now, just show a success message
+        return render_template('forgot_password.html', 
+                             success='Tumekutumia neno la siri jipya kupitia SMS. Tafadhali angalia simu yako.')
+    
     return render_template('forgot_password.html')
 
 @app.route('/ussd', methods=['POST', 'GET'])
