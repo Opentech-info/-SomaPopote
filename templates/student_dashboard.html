@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="sw-TZ">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SomaPopote - Dashboard ya Mwanafunzi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #28a745;
+            --accent-color: #ffc107;
+            --danger-color: #dc3545;
+            --info-color: #17a2b8;
+            --text-dark: #333;
+            --text-light: #fff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .sidebar {
+            background: var(--text-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            padding: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            z-index: 1000;
+        }
+
+        .sidebar .nav-link {
+            color: var(--text-light);
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background: var(--primary-color);
+            color: var(--text-light);
+        }
+
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .stat-card {
+            background: var(--text-light);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--primary-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .stat-card.success {
+            border-left-color: var(--secondary-color);
+        }
+
+        .stat-card.warning {
+            border-left-color: var(--accent-color);
+        }
+
+        .stat-card.info {
+            border-left-color: var(--info-color);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .stat-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2.5rem;
+            opacity: 0.2;
+            color: var(--primary-color);
+        }
+
+        .subject-card {
+            background: var(--text-light);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+            cursor: pointer;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            border-color: var(--primary-color);
+        }
+
+        .progress-ring {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: conic-gradient(var(--primary-color) 0deg, var(--primary-color) var(--progress), #e9ecef var(--progress), #e9ecef 360deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+        }
+
+        .activity-item {
+            background: var(--text-light);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--primary-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .activity-item:hover {
+            transform: translateX(5px);
+        }
+
+        .chart-container {
+            background: var(--text-light);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .top-bar {
+            background: var(--text-light);
+            padding: 20px 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            border-radius: 15px;
+            border: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .nav-tabs .nav-link {
+            color: var(--text-dark);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            margin-right: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tabs .nav-link.active {
+            background: var(--primary-color);
+            color: var(--text-light);
+        }
+
+        .nav-tabs .nav-link:hover {
+            background: rgba(0,123,255,0.1);
+        }
+
+        .achievement-badge {
+            background: linear-gradient(135deg, var(--accent-color), #ff8c00);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-block;
+            margin: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .quiz-result {
+            background: var(--text-light);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .quiz-result.correct {
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .quiz-result.incorrect {
+            border-left: 4px solid var(--danger-color);
+        }
+
+        .ussd-session {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--danger-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .btn-custom {
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .leaderboard-position {
+            background: linear-gradient(135deg, var(--accent-color), #ff8c00);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                height: auto;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="p-3">
+                    <h4 class="text-center mb-4">
+                        <i class="fas fa-graduation-cap"></i> SomaPopote
+                    </h4>
+                    <nav class="nav flex-column">
+                        <a class="nav-link active" href="#" data-tab="overview">
+                            <i class="fas fa-tachometer-alt"></i> Muhtasari
+                        </a>
+                        <a class="nav-link" href="#" data-tab="subjects">
+                            <i class="fas fa-book"></i> Masomo Yangu
+                        </a>
+                        <a class="nav-link" href="#" data-tab="progress">
+                            <i class="fas fa-chart-line"></i> Maendeleo Yangu
+                        </a>
+                        <a class="nav-link" href="#" data-tab="ussd-activity">
+                            <i class="fas fa-phone-alt"></i> Shughuli za USSD
+                        </a>
+                        <a class="nav-link" href="#" data-tab="achievements">
+                            <i class="fas fa-trophy"></i> Tuzo Zangu
+                        </a>
+                        <a class="nav-link" href="#" data-tab="profile">
+                            <i class="fas fa-user"></i> Wasifu Wangu
+                        </a>
+                        <a class="nav-link" href="{{ url_for('logout') }}">
+                            <i class="fas fa-sign-out-alt"></i> Toka
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Top Bar -->
+                <div class="top-bar">
+                    <div>
+                        <h5 class="mb-0">Karibu, {{ user.name }}</h5>
+                        <small class="text-muted">{{ user.grade }} - {{ user.school }}</small>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="me-3 position-relative">
+                            <i class="fas fa-bell text-muted" style="font-size: 1.2rem; cursor: pointer;"></i>
+                            <span class="notification-badge">3</span>
+                        </div>
+                        <div class="user-avatar">{{ user.name[:2].upper() }}</div>
+                    </div>
+                </div>
+
+                <!-- Overview Tab -->
+                <div id="overview" class="tab-content active">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="stat-card position-relative">
+                                <div class="stat-number">{{ progress.total_points }}</div>
+                                <div class="stat-label">Jumla ya Pointi</div>
+                                <i class="fas fa-coins stat-icon"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card success position-relative">
+                                <div class="stat-number">{{ progress.total_lessons }}</div>
+                                <div class="stat-label">Masomo Yaliyosomwa</div>
+                                <i class="fas fa-book-open stat-icon"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card warning position-relative">
+                                <div class="stat-number">{{ progress.total_quizzes }}</div>
+                                <div class="stat-label">Majaribio Yaliyofanywa</div>
+                                <i class="fas fa-question-circle stat-icon"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card info position-relative">
+                                <div class="stat-number">{{ progress.streak_days }}</div>
+                                <div class="stat-label">Siku Mfululizo</div>
+                                <i class="fas fa-fire stat-icon pulse"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="chart-container">
+                                <h5 class="mb-3">Maendeleo Yako ya Kujifunza</h5>
+                                <canvas id="progressChart" height="100"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="chart-container">
+                                <h5 class="mb-3">Wastani wa Masomo</h5>
+                                <canvas id="subjectChart" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="chart-container">
+                                <h5 class="mb-3">Shughuli za Hivi Karibuni</h5>
+                                {% for activity in recent_activities %}
+                                <div class="activity-item">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <h6 class="mb-1">{{ activity.activity }}</h6>
+                                            <small class="text-muted">{{ activity.subject }}</small>
+                                        </div>
+                                        <div class="text-end">
+                                            <small class="text-muted">{{ activity.time }}</small>
+                                            {% if activity.points %}
+                                            <div class="text-success">+{{ activity.points }} pts</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="chart-container">
+                                <h5 class="mb-3">Nafasi Yako kwenye Ubora</h5>
+                                <div class="text-center mb-3">
+                                    <div class="leaderboard-position mx-auto">{{ leaderboard_position }}</div>
+                                    <h6 class="mt-2">Nafasi {{ leaderboard_position }} kati ya {{ leaderboard_total }}</h6>
+                                </div>
+                                <div class="text-center">
+                                    <small class="text-muted">Endelea kujifunza kuongeza nafasi yako!</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Subjects Tab -->
+                <div id="subjects" class="tab-content">
+                    <div class="row">
+                        {% for subject, data in progress.subjects.items() %}
+                        <div class="col-md-6">
+                            <div class="subject-card" onclick="showSubjectDetails('{{ subject }}')">
+                                <div class="d-flex align-items-center">
+                                    <div class="me-3">
+                                        <div class="progress-ring" style="--progress: {{ (data.points / (data.points + 50)) * 360 }}deg">
+                                            {{ data.points }}
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h5 class="mb-1">{{ subject }}</h5>
+                                        <p class="mb-1 text-muted">Masomo Yaliyosomwa: {{ data.lessons_completed }}</p>
+                                        <p class="mb-0 text-muted">Majaribio: {{ data.quizzes_taken }}</p>
+                                    </div>
+                                    <div class="text-end">
+                                        <i class="fas fa-chevron-right text-muted"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Progress Tab -->
+                <div id="progress" class="tab-content">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="chart-container">
+                                <h5 class="mb-3">Maendeleo kwa Wiki</h5>
+                                <canvas id="weeklyProgressChart" height="100"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="chart-container">
+                                <h5 class="mb-3">Takwimu za Maendeleo</h5>
+                                <div class="row text-center">
+                                    <div class="col-6 mb-3">
+                                        <h3 class="text-primary">{{ progress.accuracy_rate }}%</h3>
+                                        <small class="text-muted">Usahihi</small>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <h3 class="text-success">{{ progress.improvement_rate }}%</h3>
+                                        <small class="text-muted">Maendeleo</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="chart-container">
+                                <h5 class="mb-3">Matokeo ya Majaribio ya Hivi Karibuni</h5>
+                                {% for quiz in recent_quizzes %}
+                                <div class="quiz-result {% if quiz.is_correct %}correct{% else %}incorrect{% endif %}">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1">{{ quiz.subject }} - {{ quiz.question }}</h6>
+                                            <small class="text-muted">Jibu lako: {{ quiz.user_answer }}</small>
+                                        </div>
+                                        <div class="text-end">
+                                            {% if quiz.is_correct %}
+                                            <i class="fas fa-check-circle text-success"></i>
+                                            <span class="text-success">+{{ quiz.points_earned }} pts</span>
+                                            {% else %}
+                                            <i class="fas fa-times-circle text-danger"></i>
+                                            <span class="text-danger">0 pts</span>
+                                            {% endif %}
+                                            <br>
+                                            <small class="text-muted">{{ quiz.timestamp }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- USSD Activity Tab -->
+                <div id="ussd-activity" class="tab-content">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="chart-container">
+                                <h5 class="mb-3">Historia ya Shughuli za USSD</h5>
+                                {% for session in ussd_sessions %}
+                                <div class="ussd-session">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1 text-white">{{ session.session_type }}</h6>
+                                            <small class="text-white-50">Idadi ya dakika: {{ session.duration }}</small>
+                                        </div>
+                                        <div class="text-end">
+                                            {% if session.completed %}
+                                            <i class="fas fa-check-circle text-white"></i>
+                                            <span class="text-white">Imekamilika</span>
+                                            {% else %}
+                                            <i class="fas fa-clock text-white-50"></i>
+                                            <span class="text-white-50">Haikukamilika</span>
+                                            {% endif %}
+                                            <br>
+                                            <small class="text-white-50">{{ session.timestamp }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="chart-container">
+                                <h5 class="mb-3">Takwimu za Matumizi ya USSD</h5>
+                                <div class="row text-center">
+                                    <div class="col-6 mb-3">
+                                        <h3 class="text-info">{{ ussd_stats.total_sessions }}</h3>
+                                        <small class="text-muted">Jumla ya Vikao</small>
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <h3 class="text-primary">{{ ussd_stats.total_minutes }}</h3>
+                                        <small class="text-muted">Dakika Jumla</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="chart-container">
+                                <h5 class="mb-3">Anza Kujifunza Sasa</h5>
+                                <p class="text-muted">Piga *384*200# kwenye simu yako kuanza kujifunza kupitia USSD.</p>
+                                <button class="btn btn-primary btn-custom w-100" onclick="showUSSDInstructions()">
+                                    <i class="fas fa-info-circle"></i> Maelekezo zaidi
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Achievements Tab -->
+                <div id="achievements" class="tab-content">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="chart-container">
+                                <h5 class="mb-3">Tuzo na Mafanikio Yako</h5>
+                                <div class="text-center mb-4">
+                                    <h2 class="text-warning">{{ achievements.total_badges }}</h2>
+                                    <p class="text-muted">Tuzo Jumla</p>
+                                </div>
+                                
+                                <div class="row">
+                                    {% for achievement in achievements.badges %}
+                                    <div class="col-md-4 text-center mb-3">
+                                        <div class="achievement-badge">
+                                            <i class="fas {{ achievement.icon }} mb-2 d-block"></i>
+                                            {{ achievement.name }}
+                                        </div>
+                                        <small class="text-muted">{{ achievement.description }}</small>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="chart-container">
+                                <h5 class="mb-3">Tuzo Zilizopatikana</h5>
+                                {% for reward in rewards %}
+                                <div class="activity-item">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <h6 class="mb-1">{{ reward.reason }}</h6>
+                                            <small class="text-muted">{{ reward.reward_type }}</small>
+                                        </div>
+                                        <div class="text-end">
+                                            <span class="text-success">{{ reward.amount }} TZS</span>
+                                            <br>
+                                            <small class="text-muted">{{ reward.timestamp }}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="chart-container">
+                                <h5 class="mb-3">Lengo Zifuatazo</h5>
+                                {% for goal in next_goals %}
+                                <div class="subject-card">
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-3">
+                                            <i class="fas fa-target text-warning" style="font-size: 2rem;"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-1">{{ goal.title }}</h6>
+                                            <p class="mb-0 text-muted">{{ goal.description }}</p>
+                                            <div class="progress mt-2" style="height: 5px;">
+                                                <div class="progress-bar" role="progressbar" style="width: {{ goal.progress }}%"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Tab -->
+                <div id="profile" class="tab-content">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="chart-container text-center">
+                                <div class="user-avatar mx-auto mb-3" style="width: 80px; height: 80px; font-size: 2rem;">
+                                    {{ user.name[:2].upper() }}
+                                </div>
+                                <h5>{{ user.name }}</h5>
+                                <p class="text-muted">{{ user.grade }}</p>
+                                <p class="text-muted">{{ user.school }}</p>
+                                <hr>
+                                <p class="mb-1"><i class="fas fa-phone me-2"></i> {{ user.phone_number }}</p>
+                                {% if user.parent_phone %}
+                                <p class="mb-1"><i class="fas fa-phone-alt me-2"></i> {{ user.parent_phone }}</p>
+                                {% endif %}
+                                {% if user.email %}
+                                <p class="mb-0"><i class="fas fa-envelope me-2"></i> {{ user.email }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="chart-container">
+                                <h5 class="mb-3">Maelezo ya Akaunti</h5>
+                                <form id="profileForm">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Jina Kamili</label>
+                                                <input type="text" class="form-control" value="{{ user.name }}" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Namba ya Simu</label>
+                                                <input type="text" class="form-control" value="{{ user.phone_number }}" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Shule</label>
+                                                <input type="text" class="form-control" value="{{ user.school }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label class="form-label">Darasa</label>
+                                                <select class="form-control">
+                                                    <option value="Grade 1" {% if user.grade == 'Grade 1' %}selected{% endif %}>Grade 1</option>
+                                                    <option value="Grade 2" {% if user.grade == 'Grade 2' %}selected{% endif %}>Grade 2</option>
+                                                    <option value="Grade 3" {% if user.grade == 'Grade 3' %}selected{% endif %}>Grade 3</option>
+                                                    <option value="Grade 4" {% if user.grade == 'Grade 4' %}selected{% endif %}>Grade 4</option>
+                                                    <option value="Grade 5" {% if user.grade == 'Grade 5' %}selected{% endif %}>Grade 5</option>
+                                                    <option value="Grade 6" {% if user.grade == 'Grade 6' %}selected{% endif %}>Grade 6</option>
+                                                    <option value="Grade 7" {% if user.grade == 'Grade 7' %}selected{% endif %}>Grade 7</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Barua Pepe</label>
+                                        <input type="email" class="form-control" value="{{ user.email or '' }}" placeholder="Weka barua pepe">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Namba ya Simu ya Mzazi</label>
+                                        <input type="text" class="form-control" value="{{ user.parent_phone or '' }}" placeholder="Weka namba ya simu ya mzazi">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-custom">
+                                        <i class="fas fa-save"></i> Hifadhi Mabadiliko
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize tab functionality
+            const tabLinks = document.querySelectorAll('.sidebar .nav-link[data-tab]');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all tabs
+                    tabLinks.forEach(tab => tab.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabId = this.getAttribute('data-tab');
+                    const targetContent = document.getElementById(tabId);
+                    if (targetContent) {
+                        targetContent.classList
+<!DOCTYPE html>
+<html lang="sw-TZ">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SomaPopote - Dashboard ya Mwanafunzi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #28a745;
+            --accent-color: #ffc107;
+            --danger-color: #dc3545;
+            --info-color: #17a2b8;
+            --text-dark: #333;
+            --text-light: #fff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .sidebar {
+            background: var(--text-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            padding: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            z-index: 1000;
+        }
+
+        .sidebar .nav-link {
+            color: var(--text-light);
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background: var(--primary-color);
+            color: var(--text-light);
+        }
+
+        .sidebar .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+        }
+
+        .main-content {
+            margin-left: 250px;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .stat-card {
+            background: var(--text-light);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--primary-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .stat-card.success {
+            border-left-color: var(--secondary-color);
+        }
+
+        .stat-card.warning {
+            border-left-color: var(--accent-color);
+        }
+
+        .stat-card.info {
+            border-left-color: var(--info-color);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .stat-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2.5rem;
+            opacity: 0.2;
+            color: var(--primary-color);
+        }
+
+        .subject-card {
+            background: var(--text-light);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid #e9ecef;
+            cursor: pointer;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            border-color: var(--primary-color);
+        }
+
+        .progress-ring {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: conic-gradient(var(--primary-color) 0deg, var(--primary-color) var(--progress), #e9ecef var(--progress), #e9ecef 360deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+        }
+
+        .activity-item {
+            background: var(--text-light);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--primary-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .activity-item:hover {
+            transform: translateX(5px);
+        }
+
+        .chart-container {
+            background: var(--text-light);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .top-bar {
+            background: var(--text-light);
+            padding: 20px 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            border-radius: 15px;
+            border: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .nav-tabs .nav-link {
+            color: var(--text-dark);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            margin-right: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-tabs .nav-link.active {
+            background: var(--primary-color);
+            color: var(--text-light);
+        }
+
+        .nav-tabs .nav-link:hover {
+            background: rgba(0,123,255,0.1);
+        }
+
+        .achievement-badge {
+            background: linear-gradient(135deg, var(--accent-color), #ff8c00);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: inline-block;
+            margin: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .quiz-result {
+            background: var(--text-light);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .quiz-result.correct {
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        .quiz-result.incorrect {
+            border-left: 4px solid var(--danger-color);
+        }
+
+        .ussd-session {
+            background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+            color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--danger-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .btn-custom {
+            border-radius: 25px;
+            padding: 10px 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .leaderboard-position {
+            background: linear-gradient(135deg, var(--accent-color), #ff8c00);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                position: relative;
+                height: auto;
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <div class="p-3">
+                    <h4 class="text-center mb-4">
+                        <i class="fas fa-graduation-cap"></i> SomaPopote
+                    </h4>
+                    <nav class="nav flex-column">
+                        <a class="nav-link active" href="#" data-tab="overview">
+                            <i class="fas fa-tachometer-alt"></i> Muhtasari
+                        </a>
+                        <a class="nav-link" href="#" data-tab="subjects">
+                            <i class="fas fa-book"></i> Masomo Yangu
+                        </a>
+                        <a class="nav-link" href="#" data-tab="progress">
+                            <i class="fas fa-chart-line"></i> Maendeleo Yangu
+                        </a>
+                        <a class="nav-link" href="#" data-tab="ussd-activity">
+                            <i class="fas fa-phone-alt"></i> Shughuli za USSD
+                        </a>
+                        <a class="nav-link" href="#" data-tab="achievements">
+                            <i class="fas fa-trophy"></i> Tuzo Zangu
+                        </a>
+                        <a class="nav-link" href="#" data-tab="profile">
+                            <i class="fas fa-user"></i> Wasifu Wangu
+                        </a>
+                        <a class="nav-link" href="{{ url_for('logout') }}">
+                            <i class="fas fa-sign-out-alt"></i> Toka
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content">
+                <!-- Top Bar -->
+                <div class="top-bar">
+                    <div>
+                        <h5 class="mb-0">Karibu, {{ user.name }}</h5>
+                        <small class="text-muted">{{ user.grade }} - {{ user.school }}</small>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="me-3 position-relative">
+                            <i class="fas fa-bell text-muted" style="font-size: 1.2rem; cursor: pointer;"></i>
+                            <span class="notification-badge">3</span>
+                        </div>
+                        <div class="user-avatar">{{ user.name[:2].upper() }}</div>
+                    </div>
+                </div>
+
+                <!-- Overview Tab -->
+                <div id="overview" class="tab-content active">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="stat-card position-relative">
+                                <div class="stat-number">{{ progress.total_points }}</div>
+                                <div class="stat-label">Jumla ya Pointi</div>
+                                <i class="fas fa-coins stat-icon"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card success position-relative">
+                                <div class="stat-number">{{ progress.total_lessons }}</div>
+                                <div class="stat-label">Masomo Yaliyosomwa</div>
+                                <i class="fas fa-book-open stat-icon"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card warning position-relative">
+                                <div class="stat-number">{{ progress.total_quizzes }}</div>
+                                <div class="stat-label">Majaribio Yaliyofanywa</div>
+                                <i class="fas fa-question-circle stat-icon"></i>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card info position-relative">
+                                <div class="stat-number">{{ progress.streak_days }}</div>
+                                <div class="stat-label">Siku Mfululizo</div>
+                                <i class="fas fa-fire stat-icon pulse"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="chart-container">
+                                <h5 class="mb-3">Maendeleo Yako ya Kujifunza</h5>
+                                <canvas id="progressChart" height="100"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="chart-container">
+                                <h5 class="mb-3">Wastani wa Masomo</h5>
+                                <canvas id="subjectChart" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="chart-container">
+                                <h5 class="mb-3">Shughuli za Hivi Karibuni</h5>
+                                {% for activity in recent_activities %}
+                                <div class="activity-item">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <h6 class="mb-1">{{ activity.activity }}</h6>
+                                            <small class="text-muted">{{ activity.subject }}</small>
+                                        </div>
+                                        <div class="text-end">
+                                            <small class="text-muted">{{ activity.time }}</small>
+                                            {% if activity.points %}
+                                            <div class="text-success">+{{ activity.points }}

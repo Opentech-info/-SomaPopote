@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="sw-TZ">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SomaPopote - Elimu kwa Simu Yako</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #28a745;
+            --accent-color: #ffc107;
+            --text-dark: #333;
+            --text-light: #fff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--text-light);
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .hero-section .lead {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .feature-card {
+            background: #fff;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .how-it-works {
+            background: #f8f9fa;
+            padding: 80px 0;
+        }
+
+        .step-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .step-number {
+            background: var(--accent-color);
+            color: var(--text-dark);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 1rem;
+        }
+
+        .ussd-demo {
+            background: var(--text-dark);
+            color: var(--text-light);
+            padding: 2rem;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            margin: 2rem 0;
+        }
+
+        .testimonial-section {
+            background: var(--primary-color);
+            color: var(--text-light);
+            padding: 80px 0;
+        }
+
+        .testimonial-card {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+        }
+
+        .cta-section {
+            background: var(--secondary-color);
+            color: var(--text-light);
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .btn-custom {
+            background: var(--accent-color);
+            color: var(--text-dark);
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin: 10px;
+        }
+
+        .btn-custom:hover {
+            background: #e0a800;
+            color: var(--text-dark);
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            background: var(--text-dark);
+            color: var(--text-light);
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .language-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .nav-link-custom {
+            color: var(--text-light);
+            margin: 0 15px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link-custom:hover {
+            color: var(--accent-color);
+        }
+
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-section .lead {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Toggle -->
+    <div class="language-toggle">
+        <select class="form-select form-select-sm" id="languageSelect">
+            <option value="sw">Swahili</option>
+            <option value="en">English</option>
+        </select>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-graduation-cap"></i> SomaPopote
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" href="#features">Vipengele</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" href="#how-it-works">Inavyofanya Kazi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" href="#testimonials">Ushuhuda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" href="/login">Ingia</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-custom" href="/register">Jisajili</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <h1><i class="fas fa-mobile-alt"></i> SomaPopote</h1>
+            <p class="lead">Elimu bora kwa simu yako - Popote, Wakati Wowote!</p>
+            <div class="hero-buttons">
+                <a href="#features" class="btn btn-custom btn-lg">Jifunze Zaidi</a>
+                <a href="/dashboard" class="btn btn-outline-light btn-lg">Anza Sasa</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-4">Vipengele Vyetu</h2>
+                <p class="lead">Tunatoa suluhisho kamili ya kielimu kwa wote</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <h4>USSD Learning</h4>
+                        <p>Piga *384*200# kuanza kujifunza moja kwa moja kupitia simu yako bora. Hakuna mahitaji ya mtandao wa internet.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h4>Mashindano na Tuzo</h4>
+                        <p>Jibu maswali na ushinde pointi pamoja na airtime. Changamoto za kila siku kukufanya ujifunze zaidi.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h4>Mawasiliano ya Wazazi</h4>
+                        <p>Wazazi wanaweza kuona maendeleo ya mtoto wao kupitia USSD au SMS. Walimu wanatuma ujumbe kwa wingi.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-volume-up"></i>
+                        </div>
+                        <h4>Somo kwa Sauti</h4>
+                        <p>Kwa watu wanaopenda kusikiliza au walemavu, piga simu na usikilize somo kwa sauti.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h4>Ufuatiliaji wa Maendeleo</h4>
+                        <p>Fuatilia maendeleo yako ya kujifunza kupitia dashboard. Ona pointi, matokeo na maendeleo yako.</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4>Kwa Jamii</h4>
+                        <p>Mfumo wetu umebuniwa kwa ajili ya jamii yetu, kuzingatia mahitaji halisi ya wanafunzi Tanzania.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-4">Inavyofanya Kazi</h2>
+                <p class="lead">Rahisi na rahisi kuanza</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="step-card">
+                        <div class="step-number">1</div>
+                        <h5>Piga Nambari</h5>
+                        <p>Piga *384*200# kwenye simu yako</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="step-card">
+                        <div class="step-number">2</div>
+                        <h5>Chagua Somo</h5>
+                        <p>Chagua somo unalopenda kujifunza</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="step-card">
+                        <div class="step-number">3</div>
+                        <h5>Jibu Maswali</h5>
+                        <p>Jibu maswali na upate pointi</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="step-card">
+                        <div class="step-number">4</div>
+                        <h5>Shinda Tuzo</h5>
+                        <p>Pokea airtime na tuzo kwa kujifunza</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-5">
+                <div class="col-md-6">
+                    <h4>USSD Demo</h4>
+                    <div class="ussd-demo">
+                        <div>CON Karibu SomaPopote - Elimu kwa simu yako!</div>
+                        <div>1. Anza Somo</div>
+                        <div>2. Jaribu Maswali</div>
+                        <div>3. Angalia Matokeo</div>
+                        <div>4. Wazazi & Walimu</div>
+                        <div>5. Sauti (Lessons kwa sauti)</div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <h4>Faida za Kujifunza nasi</h4>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success"></i> Gharama nafuu - Hakuna mahitaji ya internet</li>
+                        <li><i class="fas fa-check text-success"></i> Rahisi - Kwa simu yoyote ya mkononi</li>
+                        <li><i class="fas fa-check text-success"></i> Mara kwa mara - Masomo mapya kila siku</li>
+                        <li><i class="fas fa-check text-success"></i> Kuvutia - Tuzo na mashindano</li>
+                        <li><i class="fas fa-check text-success"></i> Kwa w
