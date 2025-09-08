@@ -6,165 +6,7 @@
     <title>SomaPopote - Elimu kwa Simu Yako</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #007bff;
-            --secondary-color: #28a745;
-            --accent-color: #ffc107;
-            --text-dark: #333;
-            --text-light: #fff;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: var(--text-dark);
-        }
-
-        .hero-section {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: var(--text-light);
-            padding: 100px 0;
-            text-align: center;
-        }
-
-        .hero-section h1 {
-            font-size: 3.5rem;
-            font-weight: bold;
-            margin-bottom: 1rem;
-        }
-
-        .hero-section .lead {
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .feature-card {
-            background: #fff;
-            border-radius: 15px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
-            height: 100%;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        .how-it-works {
-            background: #f8f9fa;
-            padding: 80px 0;
-        }
-
-        .step-card {
-            text-align: center;
-            padding: 2rem;
-        }
-
-        .step-number {
-            background: var(--accent-color);
-            color: var(--text-dark);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin: 0 auto 1rem;
-        }
-
-        .ussd-demo {
-            background: var(--text-dark);
-            color: var(--text-light);
-            padding: 2rem;
-            border-radius: 10px;
-            font-family: 'Courier New', monospace;
-            margin: 2rem 0;
-        }
-
-        .testimonial-section {
-            background: var(--primary-color);
-            color: var(--text-light);
-            padding: 80px 0;
-        }
-
-        .testimonial-card {
-            background: rgba(255,255,255,0.1);
-            padding: 2rem;
-            border-radius: 15px;
-            margin-bottom: 2rem;
-        }
-
-        .cta-section {
-            background: var(--secondary-color);
-            color: var(--text-light);
-            padding: 80px 0;
-            text-align: center;
-        }
-
-        .btn-custom {
-            background: var(--accent-color);
-            color: var(--text-dark);
-            padding: 12px 30px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            display: inline-block;
-            margin: 10px;
-        }
-
-        .btn-custom:hover {
-            background: #e0a800;
-            color: var(--text-dark);
-            transform: translateY(-2px);
-        }
-
-        .footer {
-            background: var(--text-dark);
-            color: var(--text-light);
-            padding: 40px 0;
-            text-align: center;
-        }
-
-        .language-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-        }
-
-        .nav-link-custom {
-            color: var(--text-light);
-            margin: 0 15px;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .nav-link-custom:hover {
-            color: var(--accent-color);
-        }
-
-        @media (max-width: 768px) {
-            .hero-section h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero-section .lead {
-                font-size: 1.2rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
 <body>
     <!-- Language Toggle -->
@@ -222,7 +64,7 @@
     <section id="features" class="py-5">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="display-4">Vipengele Vyetu</h2>
+                <h2 class="display-4 section-title">Vipengele Vyetu</h2>
                 <p class="lead">Tunatoa suluhisho kamili ya kielimu kwa wote</p>
             </div>
             
@@ -294,7 +136,7 @@
     <section id="how-it-works" class="how-it-works">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="display-4">Inavyofanya Kazi</h2>
+                <h2 class="display-4 section-title">Inavyofanya Kazi</h2>
                 <p class="lead">Rahisi na rahisi kuanza</p>
             </div>
             
@@ -352,4 +194,315 @@
                         <li><i class="fas fa-check text-success"></i> Rahisi - Kwa simu yoyote ya mkononi</li>
                         <li><i class="fas fa-check text-success"></i> Mara kwa mara - Masomo mapya kila siku</li>
                         <li><i class="fas fa-check text-success"></i> Kuvutia - Tuzo na mashindano</li>
-                        <li><i class="fas fa-check text-success"></i> Kwa w
+                        <li><i class="fas fa-check text-success"></i> Kwa wote - Wanafunzi, wazazi, na walimu</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonial-section">
+        <div class="container testimonial-container">
+            <div class="text-center mb-5">
+                <h2 class="display-4 section-title">Ushuhuda Wanazotupa</h2>
+                <p class="lead">Wanafunzi, wazazi, na walimu wanaosema kuhusu SomaPopote</p>
+            </div>
+            
+            <div class="row" id="testimonialContainer">
+                <div class="col-md-4 testimonial-item">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="testimonial-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="testimonial-text">
+                                "SomaPopote imenisaidia sana kujifunza hata nikiwa nyumbani. Ninafurahi kupata pointi na airtime kwa kujibu maswali!"
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="testimonial-avatar">A</div>
+                                <div class="testimonial-info">
+                                    <h6>Aisha Juma</h6>
+                                    <p>Mwanafunzi - Dar es Salaam</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 testimonial-item">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="testimonial-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="testimonial-text">
+                                "Kama mzazi, ninafurahi kuona maendeleo ya mtoto wangu kupitia simu. Hii ni teknolojia inayosaidia elimu."
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="testimonial-avatar">J</div>
+                                <div class="testimonial-info">
+                                    <h6>John Makonda</h6>
+                                    <p>Mzazi - Arusha</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 testimonial-item">
+                    <div class="testimonial-card">
+                        <div class="testimonial-content">
+                            <div class="testimonial-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="testimonial-text">
+                                "Natumia SomaPopote kutuma ujumbe kwa wazazi kuhusu maendeleo ya wanafunzi. Inafanya kazi yakuwa rahisi sana."
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="testimonial-avatar">M</div>
+                                <div class="testimonial-info">
+                                    <h6>Maria Salim</h6>
+                                    <p>Mwalimu - Mwanza</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-controls">
+                <button id="prevTestimonial"><i class="fas fa-chevron-left"></i></button>
+                <button id="nextTestimonial"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            
+            <div class="testimonial-indicators" id="testimonialIndicators">
+                <div class="testimonial-indicator active" data-slide="0"></div>
+                <div class="testimonial-indicator" data-slide="1"></div>
+                <div class="testimonial-indicator" data-slide="2"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 mx-auto text-center">
+                    <h2 class="display-4">Anza Safari Yako ya Kujifunza Leo</h2>
+                    <p class="lead">Jiunge na maelfu ya wanafunzi wanaojifunza kupitia SomaPopote</p>
+                    <div class="cta-buttons">
+                        <a href="/register" class="btn btn-light btn-lg">Jisajili Bure</a>
+                        <a href="#features" class="btn btn-outline-light btn-lg">Jifunze Zaidi</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Advanced Footer -->
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h4 class="text-white mb-0">Pata Habari za Hivi Punde - Jiunge Nasi Leo!</h4>
+                    </div>
+                    <div class="col-md-4 text-md-end">
+                        <a href="/register" class="btn btn-dark btn-lg">Jisajili Sasa</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="footer-widget">
+                            <h5><i class="fas fa-graduation-cap"></i> SomaPopote</h5>
+                            <p>Elimu bora kwa simu yako - Popote, Wakati Wowote! Tunatoa suluhisho kamili ya kielimu kwa wote kupitia teknolojia ya USSD.</p>
+                            
+                            <div class="footer-social">
+                                <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                                <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                                <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                                <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                                <a href="#" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-2 col-md-6">
+                        <div class="footer-widget">
+                            <h5>Vipengele</h5>
+                            <ul>
+                                <li><a href="#features">USSD Learning</a></li>
+                                <li><a href="#features">Mashindano na Tuzo</a></li>
+                                <li><a href="#features">Mawasiliano ya Wazazi</a></li>
+                                <li><a href="#features">Somo kwa Sauti</a></li>
+                                <li><a href="#features">Ufuatiliaji wa Maendeleo</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-widget">
+                            <h5>Mawasiliano</h5>
+                            <div class="footer-contact">
+                                <div class="footer-contact-item">
+                                    <i class="fas fa-phone"></i>
+                                    <span>+255 712 345 678</span>
+                                </div>
+                                <div class="footer-contact-item">
+                                    <i class="fas fa-envelope"></i>
+                                    <span>info@somapopote.co.tz</span>
+                                </div>
+                                <div class="footer-contact-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>Dar es Salaam, Tanzania</span>
+                                </div>
+                                <div class="footer-contact-item">
+                                    <i class="fas fa-clock"></i>
+                                    <span>24/7 - Kila siku</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-3 col-md-6">
+                        <div class="footer-widget">
+                            <div class="footer-newsletter">
+                                <h5><i class="fas fa-envelope"></i> Jarida Letu</h5>
+                                <p>Pata habari za hivi punde kuhusu masomo mapya na matukio.</p>
+                                <form id="newsletterForm">
+                                    <div class="input-group">
+                                        <input type="email" class="form-control" placeholder="Barua pepe yako" required>
+                                        <button class="btn" type="submit">
+                                            <i class="fas fa-paper-plane"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-partners">
+                    <h6>Washirika Wetu</h6>
+                    <div class="partner-logos">
+                        <div class="partner-logo">Ministry of Education</div>
+                        <div class="partner-logo">TCRA</div>
+                        <div class="partner-logo">Vodacom</div>
+                        <div class="partner-logo">Airtel</div>
+                        <div class="partner-logo">Tigo</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>&copy; 2024 SomaPopote. Haki zote zimehifadhiwa.</p>
+                    </div>
+                    <div class="col-md-6 text-md-end">
+                        <p>
+                            <a href="#">Sera ya Faragha</a> | 
+                            <a href="#">Masharti ya Utumiaji</a> | 
+                            <a href="#">Kuhusu Sisi</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="/static/js/main.js"></script>
+    
+    <!-- Testimonial Functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Testimonial Slider
+            let currentTestimonial = 0;
+            const testimonials = document.querySelectorAll('.testimonial-item');
+            const indicators = document.querySelectorAll('.testimonial-indicator');
+            const totalTestimonials = testimonials.length;
+
+            function showTestimonial(index) {
+                // Hide all testimonials
+                testimonials.forEach((testimonial, i) => {
+                    if (i === index) {
+                        testimonial.style.display = 'block';
+                        testimonial.style.animation = 'fadeInUp 0.6s ease-out';
+                    } else {
+                        testimonial.style.display = 'none';
+                    }
+                });
+
+                // Update indicators
+                indicators.forEach((indicator, i) => {
+                    if (i === index) {
+                        indicator.classList.add('active');
+                    } else {
+                        indicator.classList.remove('active');
+                    }
+                });
+
+                currentTestimonial = index;
+            }
+
+            function nextTestimonial() {
+                const next = (currentTestimonial + 1) % totalTestimonials;
+                showTestimonial(next);
+            }
+
+            function prevTestimonial() {
+                const prev = (currentTestimonial - 1 + totalTestimonials) % totalTestimonials;
+                showTestimonial(prev);
+            }
+
+            // Event listeners for controls
+            document.getElementById('nextTestimonial').addEventListener('click', nextTestimonial);
+            document.getElementById('prevTestimonial').addEventListener('click', prevTestimonial);
+
+            // Event listeners for indicators
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => showTestimonial(index));
+            });
+
+            // Auto-rotate testimonials
+            setInterval(nextTestimonial, 5000);
+
+            // Newsletter form handling
+            document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = this.querySelector('input[type="email"]').value;
+                
+                // Show success message
+                showNotification('Umefanikiwa kujisajili kwenye jarida letu!', 'success');
+                this.reset();
+            });
+
+            // Initialize first testimonial
+            showTestimonial(0);
+        });
+    </script>
+</body>
+</html>
